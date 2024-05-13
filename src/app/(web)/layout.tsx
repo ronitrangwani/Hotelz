@@ -11,7 +11,7 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "700", "900"],
   style: ["italic", "normal"],
-  variable: "--font-poppins"
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -26,6 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={poppins.className}>
         <NextAuthProvider>
           <ThemeProvider>
