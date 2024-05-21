@@ -13,6 +13,7 @@ import LoadingSpinner from "../../loading";
 import HotelPhotoGallery from "@/components/HotelPhotoGallery/HotelPhotoGallery";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
 import toast from "react-hot-toast";
+import { getStripe } from "@/libs/stripe";
 // import { getStripe } from "@/libs/stripe";
 // import RoomReview from "@/components/RoomReview/RoomReview";
 
@@ -56,31 +57,31 @@ const RoomDetails = (props: { params: { slug: string } }) => {
 
     const hotelRoomSlug = room.slug.current;
 
-    // const stripe = await getStripe();
+    const stripe = await getStripe();
 
-    // try {
-    //   const { data: stripeSession } = await axios.post("/api/stripe", {
-    //     checkinDate,
-    //     checkoutDate,
-    //     adults,
-    //     children: noOfChildren,
-    //     numberOfDays,
-    //     hotelRoomSlug,
-    //   });
+    try {
+      const { data: stripeSession } = await axios.post("/api/stripe", {
+        checkinDate,
+        checkoutDate,
+        adults,
+        children: noOfChildren,
+        numberOfDays,
+        hotelRoomSlug,
+      });
 
-    //   if (stripe) {
-    //     const result = await stripe.redirectToCheckout({
-    //       sessionId: stripeSession.id,
-    //     });
+      if (stripe) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: stripeSession.id,
+        });
 
-    //     if (result.error) {
-    //       toast.error("Payment Failed");
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.log("Error: ", error);
-    //   toast.error("An error occured");
-    // }
+        if (result.error) {
+          toast.error("Payment Failed");
+        }
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      toast.error("An error occured");
+    }
   };
 
   const calcNumDays = () => {
